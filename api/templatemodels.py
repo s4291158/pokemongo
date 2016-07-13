@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Route(models.Model):
+class RouteTemplate(models.Model):
     name = models.CharField(
         max_length=40,
         blank=True
@@ -11,12 +11,12 @@ class Route(models.Model):
         if self.name:
             return self.name
         else:
-            return 'Route ' + self.id
+            return 'Route ' + str(self.id)
 
 
-class Location(models.Model):
+class LocationTemplate(models.Model):
     route = models.ForeignKey(
-        Route,
+        RouteTemplate,
         on_delete=models.CASCADE
     )
 

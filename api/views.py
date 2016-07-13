@@ -1,49 +1,39 @@
 from rest_framework import viewsets
 
-from api.models import (
-    Route,
-    Location
+from api.templatemodels import (
+    RouteTemplate,
+    LocationTemplate
 )
 
 from api.serializers import (
-    RouteSerializer,
-    LocationSerializer
+    RouteTemplateSerializer,
+    LocationTemplateSerializer
 )
 
 
-class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
+class RouteTemplateViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = RouteTemplate.objects.all()
+    serializer_class = RouteTemplateSerializer
 
 
-location_list = LocationViewSet.as_view({
+route_template_list = RouteTemplateViewSet.as_view({
     'get': 'list',
-    'post': 'create'
 })
 
-location_detail = LocationViewSet.as_view({
-     'get': 'retrieve',
-     'put': 'update',
-     'patch': 'partial_update',
-     'delete': 'destroy'
+route_template_detail = RouteTemplateViewSet.as_view({
+    'get': 'retrieve',
 })
 
 
-class RouteViewSet(viewsets.ModelViewSet):
-    queryset = Route.objects.all()
-    serializer_class = RouteSerializer
+class LocationTemplateViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = LocationTemplate.objects.all()
+    serializer_class = LocationTemplateSerializer
 
 
-route_list = RouteViewSet.as_view({
+location_template_list = LocationTemplateViewSet.as_view({
     'get': 'list',
-    'post': 'create'
 })
 
-route_detail = RouteViewSet.as_view({
-     'get': 'retrieve',
-     'put': 'update',
-     'patch': 'partial_update',
-     'delete': 'destroy'
+location_template_detail = LocationTemplateViewSet.as_view({
+    'get': 'retrieve',
 })
-
-

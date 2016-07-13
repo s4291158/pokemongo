@@ -1,18 +1,16 @@
 from rest_framework import serializers
 
-from api.models import (
-    Route,
-    Location
+from api.templatemodels import (
+    RouteTemplate,
+    LocationTemplate
 )
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class RouteTemplateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Location
+        model = RouteTemplate
 
 
-class RouteSerializer(serializers.ModelSerializer):
+class LocationTemplateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Route
-
-
+        model = LocationTemplate
