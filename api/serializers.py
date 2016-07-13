@@ -1,16 +1,19 @@
 from rest_framework import serializers
 
-from api.templatemodels import (
-    RouteTemplate,
-    LocationTemplate
+from api.models import (
+    Route,
+    Stop
 )
 
 
-class RouteTemplateSerializer(serializers.ModelSerializer):
+class StopSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RouteTemplate
+        model = Stop
 
 
-class LocationTemplateSerializer(serializers.ModelSerializer):
+class RouteSerializer(serializers.ModelSerializer):
+    stop_set = StopSerializer(many=True)
+
     class Meta:
-        model = LocationTemplate
+        model = Route
+

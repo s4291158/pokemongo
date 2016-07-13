@@ -28,6 +28,8 @@ if envar.DEV:
 else:
     DEBUG = envar.DEBUG
 
+API_SECRET = envar.API_SECRET
+
 ALLOWED_HOSTS = ['*']
 
 # Application definition

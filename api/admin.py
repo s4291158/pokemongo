@@ -1,9 +1,15 @@
-from django.apps import apps
 from django.contrib import admin
+from api.models import Route, Stop
 
-app = apps.get_app_config('api')
 
-for model_name, model in app.models.items():
-    exclude = ['baseuser_groups', 'baseuser_user_permissions']
-    if model_name not in exclude:
-        admin.site.register(model)
+class StopInline(admin.TabularInline):
+    model = Stop
+
+
+class RouteAdmin(admin.ModelAdmin):
+    inlines = [
+        StopInline
+    ]
+
+
+admin.site.register(Route, RouteAdmin)
