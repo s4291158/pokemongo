@@ -1,64 +1,39 @@
-from rest_framework import viewsets
-
 from api.models import (
     Route,
-    Stop
+    Stop,
+    Current
 )
 
-from api.serializers import (
-    RouteSerializer,
-)
-
-# <extra imports block>
 from pokemongo.settings import API_SECRET
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-# </extra>
-
-
-class RouteViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Route.objects.all()
-    serializer_class = RouteSerializer
-
-
-route_list = RouteViewSet.as_view({
-    'get': 'list',
-})
-
-route_detail = RouteViewSet.as_view({
-    'get': 'retrieve',
-})
-
-
-# <extra views block>
 class GetLocation(APIView):
     def get(self, request):
         context = {}
         if 'secret' in request.GET and request.GET['secret'] == API_SECRET:
-            try:
-                route = Route.objects.get(id=request.GET['route'])
-            except KeyError:
-                context['data'] = 'No route specified'
-                return Response(context, status=status.HTTP_400_BAD_REQUEST)
-            except (Route.DoesNotExist, ValueError):
-                context['data'] = 'Route {} does not exist'.format(
-                    request.GET['route']
-                )
-                return Response(context, status=status.HTTP_404_NOT_FOUND)
+            current_set = Current.objects.all()
+            if current_set.count() != 1:
+                if current_set.count() == 0:
+                    context['data'] = 'No current route specified'
+                elif current_set.count() > 1:
+                    context['data'] = 'More than one current route specified'
+                return Response(context, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            else:
+                current = current_set[0]
 
-            old_index = route.index
-            if old_index == route.stop_set.count():
+            old_index = current.route_index
+            if old_index == current.route.stop_set.count():
                 new_index = 1
             else:
                 new_index = old_index + 1
 
-            route.index = new_index
-            route.save()
+            current.route_index = new_index
+            current.save()
 
-            stop = Stop.objects.get(route=route, order=route.index)
+            stop = Stop.objects.get(route=current.route, order=new_index)
 
             context['data'] = {
                 'index': new_index,

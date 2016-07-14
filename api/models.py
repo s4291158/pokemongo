@@ -7,10 +7,6 @@ class Route(models.Model):
         blank=True
     )
 
-    index = models.IntegerField(
-        default=0  # 0 means not started yet
-    )
-
     def __str__(self):
         if self.name:
             return self.name
@@ -36,3 +32,17 @@ class Stop(models.Model):
 
     class Meta:
         unique_together = (('route', 'order'),)
+
+
+class Current(models.Model):
+    route = models.OneToOneField(
+        Route
+    )
+
+    route_index = models.IntegerField(
+        default=0  # 0 means not started yet
+    )
+
+    def __str__(self):
+        return str(self.route)
+
