@@ -1,4 +1,4 @@
-# route planning for location spoofing
+# Route planning for location spoofing
 API endpoint which provides a different location coordinate for each GET request, ultimately simulating 'a walk' (infinitely looped) if requested frequent enough. 
 
 Route can be set along pokestops thus allowing pokestop visits and egg hatching.
