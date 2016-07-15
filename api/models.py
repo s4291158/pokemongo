@@ -43,6 +43,13 @@ class Current(models.Model):
         default=0  # 0 means not started yet
     )
 
+    backwards_loop = models.BooleanField(
+        default=True
+    )
+
+    travel_forward = models.BooleanField(
+        default=True
+    )
+
     def __str__(self):
         return str(self.route)
-
